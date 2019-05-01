@@ -5,48 +5,33 @@ import Header from './shared/components/Header';
 import JobList from './shared/components/JobList/JobList'
 import SearchIcon from "./assets/images/searchIcon.png";
 import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
+
+import {connect} from 'react-redux';
 
 class App extends Component {
 
     constructor(props) {
         super(props);
         this.arrayholder = [];
-        this.state = {
-            text: '',
-            numOfJobs: 0,
-            data: null,
-            jobList: null
-        };
     }
 
     componentDidMount() {
         return fetch('https://search.bossjob.com/api/v1/search/job_filter?size=10&query=system')
             .then((response) => response.json())
             .then((responseJson) => {
-
-                this.setState({
-                    data: responseJson.data,
-                });
+                  this.props.setData(responseJson.data);
 
                 //get first 12 jobs if the number of jobs is more than 12.
                 if (responseJson.data.jobs.length > 12) {
                     var newJobs = responseJson.data.jobs.slice(0, 12);
-                    this.setState({
-                        jobList:newJobs
-                    });
+                    this.props.setJobList(newJobs);
                     this.arrayholder = newJobs;
                 } else {
-                    this.setState({
-                        jobList: responseJson.data.jobs
-                    });
+                    this.props.setJobList(responseJson.data.jobs);
                     this.arrayholder = responseJson.data.jobs;
                 }
 
-                console.log('job list '+JSON.stringify(this.state.jobList))
+                console.log('job list '+JSON.stringify(this.props.jobList))
 
             })
             .catch((error) => {
@@ -54,18 +39,12 @@ class App extends Component {
             });
     }
 
-    doFilter = () => {
+    searchFilterFunction = () => {
         console.log('filter button clicked');
-
-    }
-
-    searchFilterFunction = (e) => {
-        console.log('text ' + JSON.stringify(e.target.value));
-        this.setState({text: e.target.value});
         const newData = this.arrayholder.filter(item => {
             const jobTitleData = `${item.job_title.toUpperCase()}`;
             const companyNameData = `${item.company_name.toUpperCase()}`;
-            const textData = e.target.value.toUpperCase();
+            const textData = this.props.text.toUpperCase();
             //in filter function, if return ture, value will be added to the newData Array.
             if ((jobTitleData.indexOf(textData) > -1) || companyNameData.indexOf(textData) > -1) {
                 return true;
@@ -73,7 +52,7 @@ class App extends Component {
                 return false;
             }
         });
-        this.setState({jobList: newData});
+        this.props.setJobList(newData);
     };
 
 
@@ -105,8 +84,8 @@ class App extends Component {
                 outline:'none'
 
       }}
-      onChange={this.searchFilterFunction.bind(this)}
-      value={this.state.text}
+      onChange={this.props.setText.bind(this)}
+      value={this.props.text}
       placeholder={'Search for job title or company name'}/>
 
             </div>
@@ -122,7 +101,7 @@ class App extends Component {
               alignItems: 'center',
               justifyContent: 'center'
       }}
-      onClick={this.doFilter}>
+      onClick={this.searchFilterFunction}>
           Filter results
           </Button>
       </div>
@@ -139,13 +118,13 @@ class App extends Component {
                 alignItems: 'center',
         }}>
     <p style={{width: '80%', fontSize: 15, fontWeight: 'bold', color: '#000'}}>
-        {this.state.jobList ? this.state.jobList.length : 0}{' jobs found'}
+        {this.props.jobList ? this.props.jobList.length : 0}{' jobs found'}
 
     </p>
         </div>
         <div style={{display:'flex',flex: 1, width: '100%'}}>
     <GridList cellHeight={200}>
-        {this.state.jobList?this.state.jobList.map(item => (
+        {this.props.jobList?this.props.jobList.map(item => (
             <JobList
             job={item}/>
         ))
@@ -162,4 +141,22 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        text:state.text,
+        data:state.data,
+        jobList:state.jobList
+    };
+};
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        setText:(e)=>dispatch({type:"SEARCH_TEXT",value:e.target.value}),
+        setData:(data)=>dispatch({type:"SET_DATA",value:data}),
+        setJobList:(jobs)=>dispatch({type:"SET_JOB_LIST",value:jobs})
+
+    };
+};
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
