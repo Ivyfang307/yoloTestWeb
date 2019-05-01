@@ -113,10 +113,12 @@ class App extends Component {
 
           <Button variant="outlined" color="primary"
       style={{
-          width: '80%',
+          display:'flex',
+          flex:1,
+          width: '100%',
               height: 30,
               borderWidth: 1,
-              borderRadius: 15,
+              borderRadius: 20,
               alignItems: 'center',
               justifyContent: 'center'
       }}
