@@ -41,7 +41,7 @@ class JobList extends Component {
 
     render() {
         return (
-            <div className="SearchBar" style={{display:'flex',flexDirection:'column',height:200,width:'100%',alignItems:'flex-start',justifyContent:'center',borderBottomWidth:1,borderBottomColor:'#d8d8d8'}}>
+            <div className="BottomLine" style={{display:'flex',flexDirection:'column',height:200,width:'100%',alignItems:'flex-start',justifyContent:'center',borderBottomWidth:1,borderBottomColor:'#d8d8d8'}}>
                 <div style={{display:'flex',flexDirection:'row',justifyContent: 'center',flex:1,width:'100%',
                     alignItems: 'center'}}>
                     <p style={{fontSize:15,fontWeight: 'bold',color:'#000'}}>
