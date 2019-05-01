@@ -4,6 +4,7 @@ import Header from './shared/components/Header';
 import JobList from './shared/components/JobList/JobList'
 import SearchIcon from "./assets/images/searchIcon.png";
 import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
 import {connect} from 'react-redux';
 
 class App extends Component {
@@ -78,19 +79,18 @@ class App extends Component {
                                 {this.props.jobList ? this.props.jobList.length : 0}{' jobs found'}
                         </div>
                         <div className="JobList-Wrapper">
-                            <GridList cellHeight={200}>
+                            <GridList cellHeight={200} cols={1}>
                                 {this.props.jobList ? this.props.jobList.map(item => (
+                                    <GridListTile key={item.id}>
                                         <JobList
                                             job={item}/>
+                                    </GridListTile>
                                     ))
                                     : null}
                             </GridList>
-
                         </div>
-
                     </div>
                 </div>
-
             </div>
         );
     }

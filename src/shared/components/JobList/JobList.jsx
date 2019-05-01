@@ -45,11 +45,13 @@ class JobList extends Component {
                 <div className="JobLocation">
                     <img className="Icon"
                          src={MapIcon}
+                         alt="MapIcon"
                     />
                     {this.state.job.company_location}
                     <div className="Space"></div>
                     <img className="Icon"
                          src={WorkIcon}
+                         alt="WorkIcon"
                     />
                     {this.state.job.xp_lvl}
                 </div>
@@ -57,11 +59,13 @@ class JobList extends Component {
                 <div className="JobLocation">
                     <img className="Icon"
                          src={QualificationIcon}
+                         alt="QualificationIcon"
                     />
                     {this.state.job.degree}
                     <div className="Space"></div>
                     <img className="ClockIcon"
                          src={ClockIcon}
+                         alt="ClockIcon"
                     />
                     {this.state.job.job_type}
                 </div>
@@ -70,9 +74,10 @@ class JobList extends Component {
                     <img
                         className="CompanyLogo"
                         src={CompanyLogo}
+                        alt="CompanyLogo"
                     />
                     <div style={{width: 180}}>
-                        <p numberOfLines={2} ellipsizeMode={'tail'}>
+                        <p numberoflines={2} ellipsizemode={'tail'}>
                             {this.state.job.company_name}
                         </p>
                     </div>
