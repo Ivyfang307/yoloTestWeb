@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import Logo from '../../../assets/images/Logo.svg'
-import './Header.css'
+import Logo from '../../../assets/images/Logo.svg';
+import './Header.css';
 
 const Header = () => (
   <header className="Header">
